@@ -1,22 +1,36 @@
-#include <stdio.h>
-#include <string.h>
+/*Problem: Given integers a and b, compute a^b using recursion without using pow() function.
 
-int main() {
-    char str[1000];
-    scanf("%s", str);
-    
-    int length = strlen(str);
-    int left = 0;
-    int right = length - 1;
-    
-    while (left < right) {
-        char temp = str[left];
-        str[left] = str[right];
-        str[right] = temp;
-        left++;
-        right--;
-    }
-    
-    printf("%s\n", str);
+Input:
+- Two space-separated integers a and b
+
+Output:
+- Print a raised to power b
+
+Example:
+Input:
+2 5
+
+Output:
+32
+
+Explanation: 2^5 = 2 * 2 * 2 * 2 * 2 = 32*/
+
+
+#include <stdio.h>
+
+int power(int c, int b)
+{
+    if(b == 0)
+        return 1;
+    else
+        return c * power(c, b - 1);
+}
+
+int main()
+{
+    int a, b;   
+    scanf("%d %d", &a, &b);
+    int result = power(a, b);
+    printf("%d\n", result);
     return 0;
 }
