@@ -2,7 +2,6 @@
 
 Return the minimum number of CPU intervals required to complete all tasks.
 
- 
 
 Example 1:
 
