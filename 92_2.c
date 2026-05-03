@@ -45,22 +45,23 @@ int partition(int* nums, int left, int right) {
     return i + 1;
 }
 
-int quickSelect(int* nums, int left, int right, int k) {
-    if (left <= right) {
-        int pivotIndex = partition(nums, left, right);
-        
-        if (pivotIndex == k - 1) {
-            return nums[pivotIndex];
-        } else if (pivotIndex > k - 1) {
-            return quickSelect(nums, left, pivotIndex - 1, k);
-        } else {
-            return quickSelect(nums, pivotIndex + 1, right, k);
+int findKthLargest(int* nums, int numsSize, int k) {
+    int freq[20001] = {0};
+    int offset = 10000;
+    
+    for (int i = 0; i < numsSize; i++) {
+        freq[nums[i] + offset]++;
+    }
+    
+    int count = 0;
+    for (int i = 20000; i >= 0; i--) {
+        if (freq[i] > 0) {
+            count += freq[i];
+            if (count >= k) {
+                return i - offset;
+            }
         }
     }
     
     return -1;
-}
-
-int findKthLargest(int* nums, int numsSize, int k) {
-    return quickSelect(nums, 0, numsSize - 1, k);
 }
