@@ -16,58 +16,21 @@ Explanation:
 No cycle in the graph.
 Constraints:
 1 ≤ V, E ≤ 105
-0 ≤ edges[i][0], edges[i][1] < V ***
+0 ≤ edges[i][0], edges[i][1] < V */
 
-bool dfs(int vertex, int parent, struct Node** adj, int* visited, int V) {
-    visited[vertex] = 1;
-    
-    struct Node* temp = adj[vertex];
-    while (temp) {
-        int neighbor = temp->vertex;
-        
-        if (!visited[neighbor]) {
-            if (dfs(neighbor, vertex, adj, visited, V)) {
-                return true;
-            }
-        } else if (neighbor != parent) {
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool dfs(int node, int parent, vector<int> adj[], vector<int>& vis) {
+    vis[node] = 1;
+    for (auto it : adj[node]) {
+        if (!vis[it]) {
+            if (dfs(it, node, adj, vis)) return true;
+        } else if (it != parent) {
             return true;
         }
-        
-        temp = temp->next;
     }
-    
     return false;
 }
-
-bool isCycle(int edges[][2], int E, int V) {
-    struct Node** adj = (struct Node**)calloc(V, sizeof(struct Node*));
-    
-    for (int i = 0; i < E; i++) {
-        int u = edges[i][0];
-        int v = edges[i][1];
-        
-        struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-        newNode->vertex = v;
-        newNode->next = adj[u];
-        adj[u] = newNode;
-        
-        newNode = (struct Node*)malloc(sizeof(struct Node));
-        newNode->vertex = u;
-        newNode->next = adj[v];
-        adj[v] = newNode;
-    }
-    
-    int* visited = (int*)calloc(V, sizeof(int));
-    
-    for (int i = 0; i < V; i++) {
-        if (!visited[i]) {
-            if (dfs(i, -1, adj, visited, V)) {
-                free(visited);
-                return true;
-            }
-        }
-    }
-    
-    free(visited);
-    return false;
 }   
